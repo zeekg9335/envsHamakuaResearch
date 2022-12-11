@@ -1,0 +1,1181 @@
+{%extends "base.html"%}
+{%load static%}
+{%block content %}
+
+<style>
+    * {
+
+}
+    .piechart{
+        display:inline-block;
+        width: 70%;
+        height: 500px;
+        justify-items:center;
+        margin: 0 auto;
+    }
+
+    .row {
+        padding-top: 50px;
+        --bs-gutter-x: 1.5rem;
+        --bs-gutter-y: 0;
+        display: flex;
+        flex-wrap: wrap;
+        margin-top: calc(-1 * var(--bs-gutter-y));
+        margin-right: calc(-.5 * var(--bs-gutter-x));
+        margin-left: calc(-.5 * var(--bs-gutter-x));
+        padding-bottom: 30px;
+        }
+    .title {
+        padding-top: 30px;
+        text-align: center;
+
+    }
+    .map{
+        border-radius: 50px;
+        padding: 30px; 
+        padding-bottom: 50px;
+        width: 70%;
+        height: 500px;
+        display:block;
+        margin: 0 auto;
+        
+    }
+
+    .marker {
+        background-image: url("{% static '/locationicon.png' %}");
+        background-size: cover;
+        width: 40px;
+        height: 40px;
+        border-radius: 5%;
+        cursor: pointer;
+    }
+    .mapboxgl-popup {
+        max-width: 500px;
+        word-break: break-all;
+    }
+
+    .mapboxgl-popup-content {
+        text-align: center;
+        font-family: 'Open Sans', sans-serif;
+    }
+    .title-map{
+        text-align: center;
+        justify-items:center;
+        padding-top: 30px;
+        
+    }
+    .subtext-map{
+        text-align: center;
+        font-family: 'Open Sans', sans-serif;
+        font-style: oblique;
+        justify-items:center;
+        padding-bottom: 20px;
+    }
+    .subtext-pie{
+        text-align: center;
+        font-family: 'Open Sans', sans-serif;
+        font-style: oblique;
+        justify-items:center;
+        padding-bottom: 20px;
+
+    }
+    .main-title{
+        padding-top: 30px;
+        text-align: center;
+
+    }
+    .subtext-title{
+        text-align: center;
+        font-family: 'Open Sans', sans-serif;
+        font-style: oblique;
+        justify-items:center;
+        padding-bottom: 20px;
+    }
+    .title-afterdisking{
+        padding-top: 30px;
+        text-align: center;
+    }
+    .afterDisk{
+        justify-content: center;
+    }
+    .generate {
+        justify-content: center;
+        text-align: center;
+
+    }
+    .buttongenerate{
+        justify-content: center;
+        text-align: center;
+        padding-top: 12px;
+    }
+
+    .paragraph{
+        text-align: center;
+        justify-content: center;
+        padding-top: 1%;
+        overflow-wrap: normal;
+        margin-left: 25%;
+        margin-right: 25%;
+        padding-bottom: 2%;
+        line-height: 2;
+    }
+    .bargraph{
+        border-radius: 50px;
+        width: 50%;
+        height: 30%;
+        display:block;
+        margin: 0 auto;
+
+    }
+</style>
+
+
+<body>
+    <div class="main-title">
+        <h2>
+            Hamakua Pitfall Trap Before Disking
+        </h2>
+    </div>
+    <div class="subtext-title">
+        <p1>
+            Data below shows the before disking data of invertebrate count collected <b>Before</b> disking took place.
+        </p1>
+    </div>
+    <hr>
+
+    <div class="title">
+        <h5>
+            Hamakua Invertebrate Total
+        </h5>
+    </div>
+    <div class="subtext-pie">
+        <p1>
+            Piecharts below shows total invertebrate count as well as each basin before disking occured.
+        </p1>
+    </div>
+      <div class="row">
+        <div class="col-lg-4">
+            <canvas id="pie-chart" width="200" height="140" ></canvas>
+        </div>
+
+        <div class="col-lg-4">
+            <canvas id="basinb-pie-chart" width="200" height="140" ></canvas>
+        </div>
+        <div class="col-lg-4">
+            <canvas id="basinc-pie-chart" width="200" height="140" ></canvas>
+        </div>
+      </div>
+        <div class="title-map">
+            <h5>
+                Pitfall trap location map
+            </h5>
+        </div>
+        <div class="subtext-map">
+            <p1>
+                Click on location points for more information about each trap.
+            </p1>
+
+        </div>
+
+
+
+      <div class="map" id='map'></div>
+    
+      <div class="paragraph">
+      <p> Pitfall traps were placed either by water to collect invertebrates that live near water or placed
+         on land banks to collect invertebrates living there. This placement strategy gave a stronger chance of visibility 
+         in invertebrate habitat. Pitfall traps were made by using a small glass jar half-filled with green antifreeze, to attract 
+         as many invertebrates as possible. The glass jars were then placed in a hole, dug into the ground and covered with a loose netting.
+        A flag was then placed at the position of the trap for easy location. After placing each trap into the ground, data consisting of GPS coordinates, 
+         time of trap placement, and basin name were recorded into a table.  </p>
+      </div>
+      <hr>
+      <div class="bargraph">
+        <canvas id="bar-chart"></canvas>
+      </div>
+      <hr>
+      <div class="title-afterdisking">
+            <h2>Hamakua Pitfall Trap After Disking</h2>
+      </div>
+        <div class="subtext-title">
+            <p1>
+                Data below shows the before disking data of invertebrate count collected <b>After</b> disking took place.
+            </p1>
+        </div>
+        
+        <!--Charts that will be displayed when the generate button is pressed, data must be uploaded to the database before the charts will display data  -->
+        <div class="generate">
+            <p1 class="afterDisk">Generate <b>After</b> disking data below </p1>     
+        </div>
+        <div class="buttongenerate">
+            <button type="button" id="btn" onclick="afterDiskingCharts()">Generate</button>  
+        </div>
+            <div class="row">
+                <div class="col-lg-4">
+                    <canvas id="after-pie-chart" width="200" height="140" ></canvas>
+                </div>
+        
+                <div class="col-lg-4">
+                    <canvas id="after-basinb-pie-chart" width="200" height="140" ></canvas>
+                </div>
+                <div class="col-lg-4">
+                    <canvas id="after-basinc-pie-chart" width="200" height="140" ></canvas>
+                </div>
+              </div>
+    
+
+</body>
+    
+<script>
+let delayed;
+const barconfig = {
+  type: 'bar',
+  data: {
+    datasets: [{
+        label: ['Hamakua basin B Biomass'],
+        data: {{bargraphdata|safe}},
+        backgroundColor: [ 'rgba(255, 70, 43, 0.2)',
+                            'rgba(43, 26, 255, 0.2)'
+                              ],               
+     }],
+            labels: ["Basin B", "Basin C"]
+    },
+  options: {
+    animation: {
+      onComplete: () => {
+        delayed = true;
+      },
+      delay: (context) => {
+        let delay = 0;
+        if (context.type === 'data' && context.mode === 'default' && !delayed) {
+          delay = context.dataIndex * 300 + context.datasetIndex * 100;
+        }
+        return delay;
+      },
+    },
+    scales: {
+      x: {
+        stacked: true,
+      },
+      y: {
+        stacked: true
+      }
+    }
+  }
+};
+
+    var config ={
+        type: 'pie',
+        options: {
+            responsive: true,
+            legend: {
+                display: false,
+            },
+            title: {
+                display: true,
+                text: 'Hamakua Total Invertebrate count'
+            },
+        },
+        data:{
+            datasets: [{
+                data: {{data|safe}},
+                backgroundColor: [
+                    'rgba(255, 99, 132, 0.2)',
+                    'rgba(54, 162, 235, 0.2)',
+                    'rgba(255, 206, 86, 0.2)',
+                    'rgba(75, 192, 192, 0.2)',
+                    'rgba(153, 102, 255, 0.2)',
+                    'rgba(170, 159, 64, 0.2)',
+
+                    'rgba(200, 79, 135, 0.2)',
+                    'rgba(90, 99, 221, 0.2)',
+                    'rgba(235, 108, 68, 0.2)',
+                    'rgba(74, 123, 200, 0.2)',
+                    'rgba(149, 80, 47, 0.2)',
+                    'rgba(89, 170, 150, 0.2)',
+
+                    'rgba(162, 54, 132, 0.2)',
+                    'rgba(99, 255, 235, 0.2)',
+                    'rgba(206, 255, 86, 0.2)',
+                    'rgba(192, 75, 192, 0.2)',
+                    'rgba(102, 153, 255, 0.2)',
+                    'rgba(159, 255, 64, 0.2)',
+                    'rgba(255, 99, 132, 0.2)',
+                    'rgba(54, 162, 235, 0.2)',
+                    'rgba(74, 123, 200, 0.2)',
+                    'rgba(149, 80, 47, 0.2)',
+                    'rgba(89, 170, 150, 0.2)',
+                    'rgba(206, 255, 86, 0.2)',
+                    'rgba(192, 75, 192, 0.2)',
+                    'rgba(192, 47, 255, 0.2)',
+                    'rgba(255, 149, 132, 1)',
+                    'rgba(54, 162, 235, 1)',
+                    'rgba(86, 47, 86, 1)',
+                    'rgba(215, 192, 192, 1)',
+                    'rgba(153, 102, 255, 1)',
+                    'rgba(255, 159, 64, 0.2)',
+                    'rgba(255, 99, 132, 0.2)',
+                    'rgba(54, 162, 235, 0.2)',
+                    'rgba(255, 206, 86, 0.2)',
+                    'rgba(200, 79, 135, 0.2)',
+                    'rgba(90, 99, 221, 0.2)',
+                    'rgba(235, 108, 68, 0.2)',
+                
+                ],
+                borderColor:[
+                'rgba(255, 99, 132, 0.2)',
+                    'rgba(54, 162, 235, 0.2)',
+                    'rgba(255, 206, 86, 0.2)',
+                    'rgba(75, 192, 192, 0.2)',
+                    'rgba(153, 102, 255, 0.2)',
+                    'rgba(170, 159, 64, 0.2)',
+
+                    'rgba(200, 79, 135, 0.2)',
+                    'rgba(90, 99, 221, 0.2)',
+                    'rgba(235, 108, 68, 0.2)',
+                    'rgba(74, 123, 200, 0.2)',
+                    'rgba(149, 80, 47, 0.2)',
+                    'rgba(89, 170, 150, 0.2)',
+
+                    'rgba(162, 54, 132, 0.2)',
+                    'rgba(99, 255, 235, 0.2)',
+                    'rgba(206, 255, 86, 0.2)',
+                    'rgba(192, 75, 192, 0.2)',
+                    'rgba(102, 153, 255, 0.2)',
+                    'rgba(159, 255, 64, 0.2)',
+                    'rgba(255, 99, 132, 0.2)',
+                    'rgba(54, 162, 235, 0.2)',
+                    'rgba(74, 123, 200, 0.2)',
+                    'rgba(149, 80, 47, 0.2)',
+                    'rgba(89, 170, 150, 0.2)',
+                    'rgba(206, 255, 86, 0.2)',
+                    'rgba(192, 75, 192, 0.2)',
+                    'rgba(192, 47, 255, 0.2)',
+                    'rgba(255, 149, 132, 1)',
+                    'rgba(54, 162, 235, 1)',
+                    'rgba(86, 47, 86, 1)',
+                    'rgba(215, 192, 192, 1)',
+                    'rgba(153, 102, 255, 1)',
+                    'rgba(255, 159, 64, 0.2)',
+                    'rgba(255, 99, 132, 0.2)',
+                    'rgba(54, 162, 235, 0.2)',
+                    'rgba(255, 206, 86, 0.2)',
+                    'rgba(192, 75, 192, 0.2)',
+                    'rgba(102, 153, 255, 0.2)',
+                    'rgba(192, 75, 192, 0.2)',
+                    'rgba(102, 153, 255, 0.2)',
+                    'rgba(206, 255, 86, 0.2)',
+                    'rgba(192, 75, 192, 0.2)',
+                    'rgba(192, 47, 255, 0.2)'
+                
+                    
+                
+
+                ],
+                borderWidth:2,
+                label:"Before Disking Total Invertebrate Count",
+            }],
+            labels: {{labels|safe}},
+        },
+        
+    };
+    var config2 ={
+        type: 'pie',
+        options: {
+            responsive: true,
+            legend: {
+                display: false,
+            },
+            title: {
+                display: true,
+                text: 'Basin B Invertebrate Count'
+            },
+        },
+        data:{
+            datasets: [{
+                data: {{basinbdata|safe}},
+                backgroundColor: [
+                    'rgba(255, 99, 132, 0.2)',
+                    'rgba(54, 162, 235, 0.2)',
+                    'rgba(255, 206, 86, 0.2)',
+                    'rgba(75, 192, 192, 0.2)',
+                    'rgba(153, 102, 255, 0.2)',
+                    'rgba(170, 159, 64, 0.2)',
+                    'rgba(200, 79, 135, 0.2)',
+                    'rgba(90, 99, 221, 0.2)',
+                    'rgba(235, 108, 68, 0.2)',
+                    'rgba(74, 123, 200, 0.2)',
+                    'rgba(149, 80, 47, 0.2)',
+                    'rgba(89, 170, 150, 0.2)',
+                    'rgba(162, 54, 132, 0.2)',
+                    'rgba(99, 255, 235, 0.2)',
+                    'rgba(206, 255, 86, 0.2)',
+                    'rgba(192, 75, 192, 0.2)',
+                    'rgba(102, 153, 255, 0.2)',
+                    'rgba(159, 255, 64, 0.2)',
+                    'rgba(255, 99, 132, 0.2)',
+                    'rgba(54, 162, 235, 0.2)',
+                    'rgba(74, 123, 200, 0.2)',
+                    'rgba(149, 80, 47, 0.2)',
+                ],
+                borderColor:[
+                    'rgba(255, 99, 132, 0.2)',
+                    'rgba(54, 162, 235, 0.2)',
+                    'rgba(255, 206, 86, 0.2)',
+                    'rgba(75, 192, 192, 0.2)',
+                    'rgba(153, 102, 255, 0.2)',
+                    'rgba(170, 159, 64, 0.2)',
+                    'rgba(200, 79, 135, 0.2)',
+                    'rgba(90, 99, 221, 0.2)',
+                    'rgba(235, 108, 68, 0.2)',
+                    'rgba(74, 123, 200, 0.2)',
+                    'rgba(149, 80, 47, 0.2)',
+                    'rgba(89, 170, 150, 0.2)',
+                    'rgba(162, 54, 132, 0.2)',
+                    'rgba(99, 255, 235, 0.2)',
+                    'rgba(206, 255, 86, 0.2)',
+                    'rgba(192, 75, 192, 0.2)',
+                    'rgba(102, 153, 255, 0.2)',
+                    'rgba(159, 255, 64, 0.2)',
+                    'rgba(255, 99, 132, 0.2)',
+                    'rgba(54, 162, 235, 0.2)',
+                    'rgba(74, 123, 200, 0.2)',
+                    'rgba(149, 80, 47, 0.2)',
+                ],
+                borderWidth:2,
+                label:"Basin B Before Disking Invertebrate Count",
+            }],
+            labels: {{basinblabels|safe}},
+        },
+        
+    };
+
+    var config3 ={
+        type: 'pie',
+        options: {
+            responsive: true,
+            legend: {
+                display: false,
+            },
+            title: {
+                display: true,
+                text: 'Basin C Invertebrate Count'
+            },
+        },
+        data:{
+            datasets: [{
+                data: {{basincdata|safe}},
+                backgroundColor: [
+                    'rgba(255, 99, 132, 0.2)',
+                    'rgba(54, 162, 235, 0.2)',
+                    'rgba(255, 206, 86, 0.2)',
+                    'rgba(75, 192, 192, 0.2)',
+                    'rgba(153, 102, 255, 0.2)',
+                    'rgba(170, 159, 64, 0.2)',
+                    'rgba(200, 79, 135, 0.2)',
+                    'rgba(90, 99, 221, 0.2)',
+                    'rgba(235, 108, 68, 0.2)',
+                    'rgba(74, 123, 200, 0.2)',
+                    'rgba(149, 80, 47, 0.2)',
+                    'rgba(89, 170, 150, 0.2)',
+                    'rgba(162, 54, 132, 0.2)',
+                    'rgba(99, 255, 235, 0.2)',
+                    'rgba(206, 255, 86, 0.2)',
+                    'rgba(192, 75, 192, 0.2)',
+                    'rgba(102, 153, 255, 0.2)',
+                    'rgba(159, 255, 64, 0.2)'
+                ],
+                borderColor:[
+                    'rgba(255, 99, 132, 0.2)',
+                    'rgba(54, 162, 235, 0.2)',
+                    'rgba(255, 206, 86, 0.2)',
+                    'rgba(75, 192, 192, 0.2)',
+                    'rgba(153, 102, 255, 0.2)',
+                    'rgba(170, 159, 64, 0.2)',
+                    'rgba(200, 79, 135, 0.2)',
+                    'rgba(90, 99, 221, 0.2)',
+                    'rgba(235, 108, 68, 0.2)',
+                    'rgba(74, 123, 200, 0.2)',
+                    'rgba(149, 80, 47, 0.2)',
+                    'rgba(89, 170, 150, 0.2)',
+                    'rgba(162, 54, 132, 0.2)',
+                    'rgba(99, 255, 235, 0.2)',
+                    'rgba(206, 255, 86, 0.2)',
+                    'rgba(192, 75, 192, 0.2)',
+                    'rgba(102, 153, 255, 0.2)',
+                    'rgba(159, 255, 64, 0.2)'
+                ],
+                borderWidth:2,
+                label:"Basin C Before Disking Invertebrate Count",
+            }],
+            labels: {{basinclabels|safe}},
+        },
+        
+    };
+    var afterDataconfig ={  ///Name change
+        type: 'pie',
+        options: {
+            responsive: true,
+            legend: {
+                display: false,
+            },
+            title: {
+                display: true,
+                text: 'Hamakua Total Invertebrate count after disking'
+            },
+        },
+        data:{
+            datasets: [{
+                data: {{afterDiskData|safe}},
+                backgroundColor: [
+                    'rgba(255, 99, 132, 0.2)',
+                    'rgba(54, 162, 235, 0.2)',
+                    'rgba(255, 206, 86, 0.2)',
+                    'rgba(75, 192, 192, 0.2)',
+                    'rgba(153, 102, 255, 0.2)',
+                    'rgba(170, 159, 64, 0.2)',
+
+                    'rgba(200, 79, 135, 0.2)',
+                    'rgba(90, 99, 221, 0.2)',
+                    'rgba(235, 108, 68, 0.2)',
+                    'rgba(74, 123, 200, 0.2)',
+                    'rgba(149, 80, 47, 0.2)',
+                    'rgba(89, 170, 150, 0.2)',
+
+                    'rgba(162, 54, 132, 0.2)',
+                    'rgba(99, 255, 235, 0.2)',
+                    'rgba(206, 255, 86, 0.2)',
+                    'rgba(192, 75, 192, 0.2)',
+                    'rgba(102, 153, 255, 0.2)',
+                    'rgba(159, 255, 64, 0.2)',
+                    'rgba(255, 99, 132, 0.2)',
+                    'rgba(54, 162, 235, 0.2)',
+                    'rgba(74, 123, 200, 0.2)',
+                    'rgba(149, 80, 47, 0.2)',
+                    'rgba(89, 170, 150, 0.2)',
+                    'rgba(206, 255, 86, 0.2)',
+                    'rgba(192, 75, 192, 0.2)',
+                    'rgba(192, 47, 255, 0.2)',
+                    'rgba(255, 149, 132, 1)',
+                    'rgba(54, 162, 235, 1)',
+                    'rgba(86, 47, 86, 1)',
+                    'rgba(215, 192, 192, 1)',
+                    'rgba(153, 102, 255, 1)',
+                    'rgba(255, 159, 64, 0.2)',
+                    'rgba(255, 99, 132, 0.2)',
+                    'rgba(54, 162, 235, 0.2)',
+                    'rgba(255, 206, 86, 0.2)',
+                    'rgba(200, 79, 135, 0.2)',
+                    'rgba(90, 99, 221, 0.2)',
+                    'rgba(235, 108, 68, 0.2)',
+                
+                ],
+                borderColor:[
+                'rgba(255, 99, 132, 0.2)',
+                    'rgba(54, 162, 235, 0.2)',
+                    'rgba(255, 206, 86, 0.2)',
+                    'rgba(75, 192, 192, 0.2)',
+                    'rgba(153, 102, 255, 0.2)',
+                    'rgba(170, 159, 64, 0.2)',
+
+                    'rgba(200, 79, 135, 0.2)',
+                    'rgba(90, 99, 221, 0.2)',
+                    'rgba(235, 108, 68, 0.2)',
+                    'rgba(74, 123, 200, 0.2)',
+                    'rgba(149, 80, 47, 0.2)',
+                    'rgba(89, 170, 150, 0.2)',
+
+                    'rgba(162, 54, 132, 0.2)',
+                    'rgba(99, 255, 235, 0.2)',
+                    'rgba(206, 255, 86, 0.2)',
+                    'rgba(192, 75, 192, 0.2)',
+                    'rgba(102, 153, 255, 0.2)',
+                    'rgba(159, 255, 64, 0.2)',
+                    'rgba(255, 99, 132, 0.2)',
+                    'rgba(54, 162, 235, 0.2)',
+                    'rgba(74, 123, 200, 0.2)',
+                    'rgba(149, 80, 47, 0.2)',
+                    'rgba(89, 170, 150, 0.2)',
+                    'rgba(206, 255, 86, 0.2)',
+                    'rgba(192, 75, 192, 0.2)',
+                    'rgba(192, 47, 255, 0.2)',
+                    'rgba(255, 149, 132, 1)',
+                    'rgba(54, 162, 235, 1)',
+                    'rgba(86, 47, 86, 1)',
+                    'rgba(215, 192, 192, 1)',
+                    'rgba(153, 102, 255, 1)',
+                    'rgba(255, 159, 64, 0.2)',
+                    'rgba(255, 99, 132, 0.2)',
+                    'rgba(54, 162, 235, 0.2)',
+                    'rgba(255, 206, 86, 0.2)',
+                    'rgba(192, 75, 192, 0.2)',
+                    'rgba(102, 153, 255, 0.2)',
+                    'rgba(192, 75, 192, 0.2)',
+                    'rgba(102, 153, 255, 0.2)',
+                    'rgba(206, 255, 86, 0.2)',
+                    'rgba(192, 75, 192, 0.2)',
+                    'rgba(192, 47, 255, 0.2)'
+                
+                    
+                
+
+                ],
+                borderWidth:2,
+                label:"After Disking Total Invertebrate Count",
+            }],
+            labels: {{afterDiskLabels|safe}},
+        },  
+    };
+    var afterDataconfig2 ={
+        type: 'pie',
+        options: {
+            responsive: true,
+            legend: {
+                display: false,
+            },
+            title: {
+                display: true,
+                text: ' After Disking Basin B Invertebrate Count'
+            },
+        },
+        data:{
+            datasets: [{
+                data: {{afterBasinBData|safe}},
+                backgroundColor: [
+                    'rgba(255, 99, 132, 0.2)',
+                    'rgba(54, 162, 235, 0.2)',
+                    'rgba(255, 206, 86, 0.2)',
+                    'rgba(75, 192, 192, 0.2)',
+                    'rgba(153, 102, 255, 0.2)',
+                    'rgba(170, 159, 64, 0.2)',
+                    'rgba(200, 79, 135, 0.2)',
+                    'rgba(90, 99, 221, 0.2)',
+                    'rgba(235, 108, 68, 0.2)',
+                    'rgba(74, 123, 200, 0.2)',
+                    'rgba(149, 80, 47, 0.2)',
+                    'rgba(89, 170, 150, 0.2)',
+                    'rgba(162, 54, 132, 0.2)',
+                    'rgba(99, 255, 235, 0.2)',
+                    'rgba(206, 255, 86, 0.2)',
+                    'rgba(192, 75, 192, 0.2)',
+                    'rgba(102, 153, 255, 0.2)',
+                    'rgba(159, 255, 64, 0.2)',
+                    'rgba(255, 99, 132, 0.2)',
+                    'rgba(54, 162, 235, 0.2)',
+                    'rgba(74, 123, 200, 0.2)',
+                    'rgba(149, 80, 47, 0.2)',
+                ],
+                borderColor:[
+                    'rgba(255, 99, 132, 0.2)',
+                    'rgba(54, 162, 235, 0.2)',
+                    'rgba(255, 206, 86, 0.2)',
+                    'rgba(75, 192, 192, 0.2)',
+                    'rgba(153, 102, 255, 0.2)',
+                    'rgba(170, 159, 64, 0.2)',
+                    'rgba(200, 79, 135, 0.2)',
+                    'rgba(90, 99, 221, 0.2)',
+                    'rgba(235, 108, 68, 0.2)',
+                    'rgba(74, 123, 200, 0.2)',
+                    'rgba(149, 80, 47, 0.2)',
+                    'rgba(89, 170, 150, 0.2)',
+                    'rgba(162, 54, 132, 0.2)',
+                    'rgba(99, 255, 235, 0.2)',
+                    'rgba(206, 255, 86, 0.2)',
+                    'rgba(192, 75, 192, 0.2)',
+                    'rgba(102, 153, 255, 0.2)',
+                    'rgba(159, 255, 64, 0.2)',
+                    'rgba(255, 99, 132, 0.2)',
+                    'rgba(54, 162, 235, 0.2)',
+                    'rgba(74, 123, 200, 0.2)',
+                    'rgba(149, 80, 47, 0.2)',
+                ],
+                borderWidth:2,
+                label:"Basin B After Disking Invertebrate Count",
+            }],
+            labels: {{afterBasinBLabels|safe}},
+        },
+        
+    };
+
+    var afterDataconfig3 ={
+        type: 'pie',
+        options: {
+            responsive: true,
+            legend: {
+                display: false,
+            },
+            title: {
+                display: true,
+                text: 'Basin C Invertebrate Count'
+            },
+        },
+        data:{
+            datasets: [{
+                data: {{afterBasinCData|safe}},
+                backgroundColor: [
+                    'rgba(255, 99, 132, 0.2)',
+                    'rgba(54, 162, 235, 0.2)',
+                    'rgba(255, 206, 86, 0.2)',
+                    'rgba(75, 192, 192, 0.2)',
+                    'rgba(153, 102, 255, 0.2)',
+                    'rgba(170, 159, 64, 0.2)',
+                    'rgba(200, 79, 135, 0.2)',
+                    'rgba(90, 99, 221, 0.2)',
+                    'rgba(235, 108, 68, 0.2)',
+                    'rgba(74, 123, 200, 0.2)',
+                    'rgba(149, 80, 47, 0.2)',
+                    'rgba(89, 170, 150, 0.2)',
+                    'rgba(162, 54, 132, 0.2)',
+                    'rgba(99, 255, 235, 0.2)',
+                    'rgba(206, 255, 86, 0.2)',
+                    'rgba(192, 75, 192, 0.2)',
+                    'rgba(102, 153, 255, 0.2)',
+                    'rgba(159, 255, 64, 0.2)'
+                ],
+                borderColor:[
+                    'rgba(255, 99, 132, 0.2)',
+                    'rgba(54, 162, 235, 0.2)',
+                    'rgba(255, 206, 86, 0.2)',
+                    'rgba(75, 192, 192, 0.2)',
+                    'rgba(153, 102, 255, 0.2)',
+                    'rgba(170, 159, 64, 0.2)',
+                    'rgba(200, 79, 135, 0.2)',
+                    'rgba(90, 99, 221, 0.2)',
+                    'rgba(235, 108, 68, 0.2)',
+                    'rgba(74, 123, 200, 0.2)',
+                    'rgba(149, 80, 47, 0.2)',
+                    'rgba(89, 170, 150, 0.2)',
+                    'rgba(162, 54, 132, 0.2)',
+                    'rgba(99, 255, 235, 0.2)',
+                    'rgba(206, 255, 86, 0.2)',
+                    'rgba(192, 75, 192, 0.2)',
+                    'rgba(102, 153, 255, 0.2)',
+                    'rgba(159, 255, 64, 0.2)'
+                ],
+                borderWidth:2,
+                label:"Basin C After Disking Invertebrate Count",
+            }],
+            labels: {{afterBasinCLabels|safe}},
+        },
+        
+    };
+
+
+    window.onload = function() {
+
+        var ctx = document.getElementById('pie-chart').getContext('2d');
+        window.myPie = new Chart(ctx, config);
+        var ctxbasin = document.getElementById('basinb-pie-chart').getContext('2d');
+        window.myPie = new Chart(ctxbasin, config2);
+        var ctxbasinc = document.getElementById('basinc-pie-chart').getContext('2d');
+        window.myPie = new Chart(ctxbasinc, config3);
+        var ctxbar = document.getElementById('bar-chart').getContext('2d');
+        window.bar = new Chart(ctxbar, barconfig);
+        
+       
+    }
+
+// Change data to include only the before disking information
+    const geojson = {
+        type: 'FeatureCollection',
+        features: [
+            {
+            type: 'Feature',
+            geometry: {
+                type: 'Point',
+                coordinates: [-157.741133,21.389550]
+            },
+            properties: {
+                title: 'Basin B Pitfall Trap 2',
+                description: 'Date: 9/12/2022',
+                    invertebrates:[
+                    '<li>Agabiformiusspp: 4</li>',
+                    '<li>Amphipoda: 18</li>',
+                    '<li>Formicidae: 1</li>',
+                    '<li>Gastropod: 1</li>',
+                    '<li>Gnaphosidae: 1</li>',
+                    '<li>Ligiaspp: 69</li>',
+                    '<li>Oxyopidae: 1</li>'
+                ],
+            }
+            },
+            {
+            type: 'Feature',
+            geometry: {
+                type: 'Point',
+                coordinates: [-157.741233,21.389983]
+            },
+            properties: {
+                title: 'Basin B Pitfall Trap 16',
+                description: 'Date: 9/12/2022',
+                invertebrates:[
+                    '<li>Agabiformius_spp: 68</li>',
+                    '<li>Amphipoda: 176</li>',
+                    '<li>Anisolabidinae: 3</li>',
+                    '<li>Coleoptera: 1</li>',
+                    '<li>Drosophilidae: 3</li>',
+                    '<li>Formicidae: 44</li>',
+                    '<li>Gastropod: 1</li>',
+                    '<li>Hemiptera: 4</li>',
+                    '<li>Ligia_spp: 65</li>',
+                    '<li>Pycnoscelus_surinamensis: 1</li>'
+                    ],
+                }
+            },
+            {
+            type: 'Feature',
+            geometry: {
+                type: 'Point',
+                coordinates: [-157.740883,21.389417]
+            },
+            properties: {
+                title: 'Basin B Pitfall Trap 17',
+                description: 'Date: 9/12/2022',
+                invertebrates:[
+                    '<li>Agabiformius_spp: 53</li>',
+                    '<li>Amphipoda: 918</li>',
+                    '<li>Anisolabidinae: 1</li>',
+                    '<li>Coleoptera: 1</li>',
+                    '<li>Formicidae: 3</li>',
+                    '<li>Ligia_spp: 137</li>'
+                ],
+            }
+            },
+            {
+            type: 'Feature',
+            geometry: {
+                type: 'Point',
+                coordinates: [-157.741050,21.389683]
+            },
+            properties: {
+                title: 'Basin B Pitfall Trap 18',
+                description: 'Date: 9/12/2022',
+                invertebrates:[
+                    '<li>Agabiformius_spp: 72</li>',
+                    '<li>Amphipoda: 69</li>',
+                    '<li>Araneae: 1</li>',
+                    '<li>Coleoptera: 1</li>',
+                    '<li>Drosophilidae: 3</li>',
+                    '<li>Formicidae: 10</li>',
+                    '<li>Ligia_spp: 5</li>'
+                ]
+            }
+            },
+            {
+            type: 'Feature',
+            geometry: {
+                type: 'Point',
+                coordinates: [-157.741167,21.389833]
+            },
+            properties: {
+                title: 'Basin B Pitfall Trap 19',
+                description: 'Date: 9/12/2022',
+                invertebrates:[
+                    '<li>Agabiformius_spp: 509</li>',
+                    '<li>Amphipoda: 13</li>',
+                    '<li>Anisolabidinae: 11</li>',
+                    '<li>Apidae: 1</li>',
+                    '<li>Araneae: 6</li>',
+                    '<li>Blaberidae: 1</li>',
+                    '<li>Coleoptera: 27</li>',
+                    '<li>Curculionidae: 1</li>',
+                    '<li>Diptera: 1</li>',
+                    '<li>Drosophilidae: 69</li>',
+                    '<li>Formicidae: 219</li>',
+                    '<li>Gastropod: 3</li>',
+                    '<li>Grylloidea: 1</li>',
+                    '<li>Ligia_spp: 28</li>'
+                                ],
+            }
+            },
+            {
+            type: 'Feature',
+            geometry: {
+                type: 'Point',
+                coordinates: [-157.743400,21.390933]
+            },
+            properties: {
+                title: 'Basin C Pitfall Trap 27',
+                description: 'Date: 9/14/2022',
+                invertebrates:[
+                    '<li>Agabiformius_spp: 120</li>',
+                    '<li>Amphipoda: 203</li>',
+                    '<li>Anisolabidinae: 1</li>',
+                    '<li>Chrysis_angolensis: 1</li>',
+                    '<li>Drosophilidae: 35</li>',
+                    '<li>Formicidae: 5</li>',
+                    '<li>Ligia_spp: 193</li>',
+                    '<li>Oxyopidae: 1</li>'
+                ],
+                    
+            }
+            },
+            {
+            type: 'Feature',
+            geometry: {
+                type: 'Point',
+                coordinates: [-157.743083,21.390717]
+            },
+            properties: {
+                title: 'Basin C Pitfall Trap 29',
+                description: 'Date: 9/14/2022',
+                invertebrates:[
+                    '<li>Agabiformius_spp: 831</li>',
+                    '<li>Amphipoda: 378</li>',
+                   '<li>Anisolabidinae: 7</li>',
+                   '<li>Blattella_germanica: 1</li>',
+                    '<li>Coleoptera: 15</li>',
+                   '<li>Drosophilidae: 3</li>',
+                    '<li>Formicidae: 10</li>',
+                    '<li>Hemiptera: 2</li>',
+                    '<li>Ligia_spp: 788</li>'
+                ],
+                   
+            }
+            },
+            {
+            type: 'Feature',
+            geometry: {
+                type: 'Point',
+                coordinates: [-157.743017,21.390567]
+            },
+            properties: {
+                title: 'Basin C Pitfall Trap 30',
+                description: 'Date: 9/14/2022',
+                invertebrates:[
+                    '<li>Agabiformius_spp: 417</li>',
+                    '<li>Amphipoda: 101</li>',
+                   '<li>Anisolabidinae: 1</li>',
+                   '<li>Araneae: 1</li>',
+                    '<li>Coleoptera: 1</li>',
+                    '<li>Drosophilidae: 12</li>',
+                    '<li>Ligia_spp: 644</li>',
+               
+],
+            
+            }
+            },
+            {
+            type: 'Feature',
+            geometry: {
+                type: 'Point',
+                coordinates: [-157.743117,21.390833]
+            },
+            properties: {
+                title: 'Basin C Pitfall Trap 33',
+                description: 'Date: 9/14/2022',
+                invertebrates:[
+                    '<li>Agabiformius_spp: 532</li>',
+                    '<li>Amphipoda: 1219</li>',
+                   '<li> Anisolabidinae: 3</li>',
+                    '<li>Blattella_germanica: 1</li>',
+                    '<li>Coleoptera: 4</li>',
+                    '<li>Formicidae: 35</li>',
+                    '<li>Gnaphosidae: 1</li>',
+                    '<li>Ligia_spp: 144</li>',
+                    '<li>Pycnoscelus_surinamensis: 3</li>',
+                    '<li>Thomiscidae: 1</li>'
+                ],
+                 
+            }
+            },
+        //     {
+        //     type: 'Feature',
+        //     geometry: {
+        //         type: 'Point',
+        //         coordinates: [-157.743517,21.390317]
+        //     },
+        //     properties: {
+        //         title: 'Pitfall Trap 39',
+        //         description: 'Washington, D.C.',
+        //         invertebrates:[
+        //             '<li>Amphipoda: 5</li>',
+        //             '<li>Coleoptera: 1</li>',
+        //             '<li>Drosophilidae: 20</li>',
+        //             '<li>Formicidae:134 </li>',
+        //             '<li>Grylloidea: 1</li>',
+        //             '<li>Ligia spp: 13</li>',
+        //             '<li>Trichoptera: 1</li>'
+        // ],
+               
+        //     }
+        //     },
+        //     {
+        //     type: 'Feature',
+        //     geometry: {
+        //         type: 'Point',
+        //         coordinates: [-157.741850,21.389650]
+        //     },
+        //     properties: {
+        //         title: 'Pitfall Trap 41',
+        //         description: 'Washington, D.C.',
+        //         invertebrates:[
+        //             '<li>Agabiformius_spp: 5</li>',
+        //             '<li>Amphipoda: 15</li>',
+        //             '<li>Anisolabidinae: 17</li>',
+        //             '<li>Coleoptera: 8</li>',
+        //             '<li>Drosophilidae: 127</li>',
+        //             '<li>Formicidae: 8</li>',
+        //             '<li>Ligia_spp: 38</li>'
+                    
+        //         ],
+                    
+        //     }
+        //     },
+        //     {
+        //     type: 'Feature',
+        //     geometry: {
+        //         type: 'Point',
+        //         coordinates: [-157.741100,21.389233]
+        //     },
+        //     properties: {
+        //         title: 'Pitfall Trap 43',
+        //         description: 'Washington, D.C.',
+        //         invertebrates:[
+        //             '<li>Agabiformius_spp: 2</li>',
+        //             '<li>Amphipoda: 13</li>',
+        //             '<li>Coleoptera: 2</li>',
+        //             '<li>Drosophilidae: 68</li>',
+        //             '<li>Formicidae: 1</li>',
+        //             '<li>Hydrophilidae: 1</li>',
+        //             '<li>Ligia_spp: 25</li>'
+        //             ],
+                    
+        //     }
+        //     },
+        //     {
+        //     type: 'Feature',
+        //     geometry: {
+        //         type: 'Point',
+        //         coordinates: [-157.741367,21.390033]
+        //     },
+        //     properties: {
+        //         title: 'Pitfall Trap 45',
+        //         description: 'Washington, D.C.',
+        //         invertebrates:[
+        //             '<li>Agabiformius_spp: 335</li>',
+        //             '<li>Amphipoda: 811</li>',
+        //             '<li>Anisolabidinae: 55</li>',
+        //             '<li>Coleoptera: 5</li>',
+        //             '<li>Drosophilidae: 26</li>',
+        //             '<li>Ligia_spp: 679</li>'
+        //         ],
+                    
+                
+        //     }
+        //     },
+        //     {
+        //     type: 'Feature',
+        //     geometry: {
+        //         type: 'Point',
+        //         coordinates: [-157.743783,21.391100]
+        //     },
+        //     properties: {
+        //         title: 'Pitfall Trap 47',
+        //         description: 'Washington, D.C.',
+        //         invertebrates:[
+        //             '<li>Agabiformius_spp: 5</li>',
+        //             '<li>Amphipoda: 9</li>',
+        //             '<li>Apidae: 1</li>',
+        //             '<li>Drosophilidae: 95</li>',
+        //             '<li>Ligia_spp: 31</li>'
+        //         ],
+                   
+        //     }
+        //     },
+        //     {
+        //     type: 'Feature',
+        //     geometry: {
+        //         type: 'Point',
+        //         coordinates: [-157.743233,21.390867]
+        //     },
+        //     properties: {
+        //         title: 'Pitfall Trap 49',
+        //         description: 'Washington, D.C.',
+        //         invertebrates:[ 
+        //             '<li>Agabiformius_spp: 3</li>',
+        //             '<li>Amphipoda: 36</li>',
+        //             '<li>Anisolabidinae: 2</li>',
+        //             '<li>Blaberidae: 1</li>',
+        //             '<li>Coleoptera: 19</li>',
+        //             '<li>Drosophilidae: 45</li>',
+        //             '<li>Formicidae: 2</li>',
+        //             '<li>Ligia_spp: 136</li>'
+        //         ],
+                    
+        //     }
+        //     },
+        //     {
+        //     type: 'Feature',
+        //     geometry: {
+        //         type: 'Point',
+        //         coordinates: [-157.743050,21.390667]
+        //     },
+        //     properties: {
+        //         title: 'Pitfall Trap 50',
+        //         description: 'Washington, D.C.',
+        //         invertebrates:[
+        //             '<li>Agabiformius:spp: 2</li>',
+        //             '<li>Amphipoda: 22</li>',
+        //             '<li>Drosophilidae: 8</li>',
+        //             '<li>Formicidae: 19</li>',
+        //             '<li>Ligia_spp: 57</li>'
+        //             ],
+                    
+                
+        //     }
+        //     },
+            ]
+        
+            
+    };
+
+
+
+
+
+    mapboxgl.accessToken = 'pk.eyJ1IjoiemVla2c5MzM1IiwiYSI6ImNsYXlzZjNsOTEyZXEzdm9hNW4xNzY3ajkifQ.JYaff-qpuTmeWrHCXbl-yw';
+    var map = new mapboxgl.Map({
+        container: 'map',
+        style: 'mapbox://styles/mapbox/satellite-streets-v11',
+        center: [-157.7431920803707,21.39143971263238],
+        zoom: 16.7
+    });
+    for(const feature of geojson.features){
+        const el = document.createElement('div');
+        el.className = 'marker';
+        new mapboxgl.Marker(el)
+            .setLngLat(feature.geometry.coordinates)
+            .setPopup(
+                new mapboxgl.Popup({ offset: 25 }) // add popups
+                    .setHTML(`<h3>${feature.properties.title}</h3><p>${feature.properties.description}</p><p>${feature.properties.invertebrates}</p>`)).addTo(map);
+    }
+
+function afterDiskingCharts(){
+
+
+
+    var after_ctx = document.getElementById('after-pie-chart').getContext('2d');
+    afterdataPie1 = new Chart(after_ctx, afterDataconfig);
+    var after_ctxbasinb = document.getElementById('after-basinb-pie-chart').getContext('2d');
+    afterdataPie2 = new Chart(after_ctxbasinb, afterDataconfig2);
+    var after_ctxbasinc = document.getElementById('after-basinc-pie-chart').getContext('2d');
+    afterdataPie3 = new Chart(after_ctxbasinc, afterDataconfig3);
+    document.getElementById('btn').style.display = "none";
+
+
+}
+
+</script>
+
+
+
+
+
+
+
+
+
+{%endblock%}
+
+

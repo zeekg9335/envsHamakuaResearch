@@ -1,0 +1,32 @@
+{% load static %}
+<style>
+  .nav-item{
+    text-align: center;
+    color: #197521;
+  }
+</style>
+<nav class="navbar navbar-expand-lg bg-light">
+    <div class="container-fluid">
+      <img src="{% static '/logo.png' %}" style=" margin-left: 20px; margin-right: 20px; " width="270" height="30" class="d-inline-block align-top" alt="banner" style="padding-right: 30px;"> 
+
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <li class="nav-item">
+            <a style ="text-align: center; color:#197521;" class="nav-link active" aria-current="page" href="/about/">About</a>
+          </li>
+          <li class="nav-item">
+            <a style ="text-align: center; color:#197521;" class="nav-link active" href="/hamakua-information/">Hamakua Information</a>
+          </li>
+          <li class="nav-item">
+            <a style ="text-align: center; color:#197521;" class="nav-link active" href="/hamakua-data/">Hamakua Data</a>
+          </li>
+          <li class="nav-item">
+            <a style ="text-align: center; color:#197521;" class="nav-link active" href="/hamakua-inhabitants/">Hamakua Inhabitants</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>

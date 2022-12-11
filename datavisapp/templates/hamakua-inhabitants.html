@@ -1,0 +1,231 @@
+{%extends "base.html"%}
+
+{%load static%}
+{%block content %}
+
+
+<style>
+  .card-body{
+    background-color: green;
+    color: white;
+  }
+  .label-text{
+    background-color: black;
+    color: white;
+  }
+ 
+
+
+  
+</style>
+<section class="py-5 text-center container">
+    <div class="row py-lg-5">
+      <div class="col-lg-6 col-md-8 mx-auto">
+        <h1 class="fw-light">Hamakua Invertebrate Album </h1>
+        <p class="lead text-muted">The invertebrates caught in the Hamakua pitfall traps gave some insight of the vast biodiversity located in the marsh, the album below shows some of the most popular invertabrates that were found in the traps.</p>
+        <p>
+          <!-- <a href="#" class="btn btn-primary my-2">Main call to action</a>
+          <a href="#" class="btn btn-secondary my-2">Secondary action</a> -->
+        </p>
+      </div>
+    </div>
+  </section>
+
+<div class="container">
+
+    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+      <div class="col">
+        <div class="card shadow-sm">
+          <img class="bd-placeholder-img card-img-top" width="100%" height="400" xmlns="http://www.w3.org/2000/img" src= "{% static '/Agabiformiusspp.jpg' %}" role="img" aria-label="Agabiformius spp" preserveAspectRatio="xMidYMid slice" focusable="true"><title>Agabiformius spp</title><rect width="100%" height="100%" ></rect><text class="label-text"  x="50%" y="50%" style= "text-align: center" fill="#eceeef" dy=".3em"><b>Agabiformius spp (Isopod)</b></text></img>
+          <!-- <img  class="bd-placeholder-img card-img-top"src= "{% static '/Agabiformiusspp.jpg' %}" alt="Agabiformius spp" width="90%" height="400"></img> -->
+          <div class="card-body">
+            <p class="card-text" style= "text-align: center">Food  - Decaying plant material, fungi</p>
+            <div class="d-flex justify-content-between align-items-center">
+              <div class="btn-group">
+                <!-- <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
+                <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button> -->
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col">
+        <div class="card shadow-sm">
+          <img class="bd-placeholder-img card-img-top" width="100%" height="400" xmlns="http://www.w3.org/2000/img" src= "{% static '/Amphipoda.jpg'%}"role="img" aria-label="Amphipoda" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Amphipoda</title><rect width="100%" height="100%" fill="#55595c"></rect><text class="label-text" x="50%" y="50%" style= "text-align: center" fill="#eceeef" dy=".3em"><b>Amphipoda</b></text></img>
+
+          <div class="card-body">
+            <p class="card-text"style= "text-align: center">Food - filamentous algae</p>
+            <div class="d-flex justify-content-between align-items-center">
+              <div class="btn-group">
+                <!-- <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
+                <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button> -->
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col">
+        <div class="card shadow-sm">
+          <img class="bd-placeholder-img card-img-top" width="100%" height="400" xmlns="http://www.w3.org/2000/img" src= "{% static '/Arthropod.jpg'%}" role="img" aria-label="Arthropod" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Arthropod (Unknown Beetle name)</title><rect width="100%" height="100%" fill="#55595c"></rect><text class="label-text" x="50%" y="50%" style= "text-align: center" fill="#eceeef" dy=".3em"><b>Arthropod (Unknown Beetle name)</b></text></img>
+
+          <div class="card-body">
+            <p class="card-text" style= "text-align: center">Food – Plants, other insects, pollen, insects</p>
+            <div class="d-flex justify-content-between align-items-center">
+              <div class="btn-group">
+                <!-- <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
+                <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button> -->
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col">
+        <div class="card shadow-sm">
+          <img class="bd-placeholder-img card-img-top" width="100%" height="400" xmlns="http://www.w3.org/2000/img" src= "{% static '/Arthropod2.jpg'%}" role="img" aria-label="Arthropod2" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Arthropod (Unknown Beetle name)</title><rect width="100%" height="100%" fill="#55595c"></rect><text class="label-text" x="50%" y="50%" style= "text-align: center" fill="#eceeef" dy=".3em"><b>Arthropod (Unknown Beetle name)</b> </text></img>
+
+          <div class="card-body">
+            <p class="card-text" style= "text-align: center">Food – Plants, other insects, pollen, insects</p>
+            <div class="d-flex justify-content-between align-items-center">
+              <div class="btn-group">
+                <!-- <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
+                <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button> -->
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col">
+        <div class="card shadow-sm">
+          <img class="bd-placeholder-img card-img-top" width="100%" height="400" xmlns="http://www.w3.org/2000/img" src= "{% static '/Arthropod3.jpg'%}"role="img" aria-label="Arthropod 3" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Arthropod (Unknown Beetle name)</title><rect width="100%" height="100%" fill="#55595c"></rect><text  class="label-text" x="50%" y="50%" fill="#eceeef" style= "text-align: center" dy=".3em"><b>Arthropod (Unknown Beetle name)</b></text></img>
+
+          <div class="card-body">
+            <p class="card-text" style="text-align: center">Food – Plants, other insects, pollen, insects</p>
+            <div class="d-flex justify-content-between align-items-center">
+              <div class="btn-group">
+                <!-- <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
+                <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button> -->
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col">
+        <div class="card shadow-sm">
+          <img class="bd-placeholder-img card-img-top" width="100%" height="400" xmlns="http://www.w3.org/2000/img" src= "{% static '/Chrysisangolensis.jpg'%}" role="img" aria-label="Chrysis angolensis" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Chrysis angolensis</title><rect width="100%" height="100%" fill="#55595c"></rect><text class="label-text" x="50%" y="50%" style= "text-align: center" fill="#eceeef" dy=".3em"><b>Chrysis angolensis</b> </text></img>
+
+          <div class="card-body">
+            <p class="card-text" style= "text-align: center">Food - nectar and honeydew.</p>
+            <div class="d-flex justify-content-between align-items-center">
+              <div class="btn-group">
+                <!-- <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
+                <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button> -->
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col">
+        <div class="card shadow-sm">
+          <img class="bd-placeholder-img card-img-top" width="100%" height="400" xmlns="http://www.w3.org/2000/img" src= "{% static '/Diplopoda.jpg'%}" role="img" aria-label="Diplopoda" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Diplopoda</title><rect width="100%" height="100%" fill="#55595c"></rect><text class="label-text" x="50%" y="50%" style= "text-align: center" fill="#eceeef" dy=".3em"><b>Diplopoda</b></text></img>
+
+          <div class="card-body">
+            <p class="card-text" style= "text-align: center">Food – damp or decaying wood particles </p>
+            <div class="d-flex justify-content-between align-items-center">
+              <div class="btn-group">
+                <!-- <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
+                <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button> -->
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col">
+        <div class="card shadow-sm">
+          <img class="bd-placeholder-img card-img-top" width="100%" height="400" xmlns="http://www.w3.org/2000/img"src= "{% static '/Earwig.jpg'%}"role="img" aria-label="Earwig" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Earwig</title><rect width="100%" height="100%" fill="#55595c"></rect><text class="label-text" x="50%" y="50%" style= "text-align: center" fill="#eceeef" dy=".3em"><b>Earwig</b></text></img>
+
+          <div class="card-body">
+            <p class="card-text" style= "text-align: center">Food – flowers, fruits, mold and insects</p>
+            <div class="d-flex justify-content-between align-items-center">
+              <div class="btn-group">
+                <!-- <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
+                <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button> -->
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col">
+        <div class="card shadow-sm">
+          <img class="bd-placeholder-img card-img-top" width="100%" height="400" xmlns="http://www.w3.org/2000/img" src= "{% static '/Formicidae.jpg'%}" role="img" aria-label="Formicidae" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Formicidae</title><rect width="100%" height="100%" fill="#55595c"></rect><text class="label-text" x="50%" y="50%" style= "text-align: center" fill="#eceeef" dy=".3em"><b>Formicidae</b></text></img>
+
+          <div class="card-body">
+            <p class="card-text" style= "text-align: center">Food – Dead Insects </p>
+            <div class="d-flex justify-content-between align-items-center">
+              <div class="btn-group">
+                <!-- <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
+                <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button> -->
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col">
+        <div class="card shadow-sm">
+          <img class="bd-placeholder-img card-img-top" width="100%" height="400" xmlns="http://www.w3.org/2000/img" src= "{% static '/Gnaphosidae.jpg'%}"role="img" aria-label="Gnaphosidae" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Gnaphosidae</title><rect width="100%" height="100%" fill="#55595c"></rect><text class="label-text"  x="50%" y="50%"  style= "text-align: center" fill="#eceeef" dy=".3em"><b>Gnaphosidae</b></text></img>
+
+          <div class="card-body">
+            <p class="card-text" style= "text-align: center">Food – Mosquitos, flies, moths & other insects</p>
+            <div class="d-flex justify-content-between align-items-center">
+              <div class="btn-group">
+                <!-- <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
+                <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button> -->
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col">
+        <div class="card shadow-sm">
+          <img class="bd-placeholder-img card-img-top" width="100%" height="400" xmlns="http://www.w3.org/2000/img" src= "{% static '/ligiaspp.jpg'%}"role="img" aria-label="Ligia spp" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Ligia spp</title><rect width="100%" height="100%" fill="#55595c"></rect><text class="label-text" x="50%" y="50%" style= "text-align: center" fill="#eceeef" dy=".3em"><b>Ligia spp</b></text></img>
+
+          <div class="card-body">
+            <p class="card-text" style= "text-align: center">Food – Organic matter.</p>
+            <div class="d-flex justify-content-between align-items-center">
+              <div class="btn-group">
+                <!-- <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
+                <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button> -->
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col">
+        <div class="card shadow-sm">
+          <img class="bd-placeholder-img card-img-top" width="100%" height="400" xmlns="http://www.w3.org/2000/img" src= "{% static '/Oxyopidae.jpg'%}" role="img" aria-label="Oxyopidae" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Oxyopidae</title><rect width="100%" height="100%" fill="#55595c"></rect><text class="label-text" x="50%" y="50%" style= "text-align: center" fill="#eceeef" dy=".3em"><b>Oxyopidae</b></text></img>
+
+          <div class="card-body">
+            <p class="card-text" style= "text-align: center">Food – Mosquitos, flies, moths & other insects</p>
+            <div class="d-flex justify-content-between align-items-center">
+              <div class="btn-group">
+                <!-- <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
+                <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button> -->
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+
+      
+</div>
+  
+
+
+
+
+
+
+{%endblock%}
